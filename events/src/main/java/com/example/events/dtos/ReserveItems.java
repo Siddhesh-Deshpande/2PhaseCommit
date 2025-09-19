@@ -7,6 +7,7 @@ public class ReserveItems {
     private Integer[] itemIds;
     private Integer[] quantity;
     private Instant timestamp;
+    private Integer Status;
 
     // Constructor
     public ReserveItems(String correlationId, Integer[] itemIds, Integer[] quantity) {
@@ -15,6 +16,7 @@ public class ReserveItems {
         this.quantity = quantity;
         // If timestamp is null, set it to current time
         this.timestamp = Instant.now();
+        this.Status = 0;
     }
 
     // Getters and setters
@@ -48,5 +50,13 @@ public class ReserveItems {
 
     public void setTimestamp(Instant timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public Integer getStatus() {
+        return Status;
+    }
+
+    public void setStatus(Integer status) {
+        Status = status;
     }
 }

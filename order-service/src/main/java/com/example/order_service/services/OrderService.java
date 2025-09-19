@@ -28,8 +28,6 @@ public class OrderService {
     public void CreateOrderListener(CreateOrder response)
     {
         guavaCache.put(response.getCorrelationId(), response);
-        OrderResponse ors = new OrderResponse(response.getCorrelationId(), true);
-        responsetemplate.send("coor-service",ors);
     }
 
     @KafkaListener(topics = "order-service")

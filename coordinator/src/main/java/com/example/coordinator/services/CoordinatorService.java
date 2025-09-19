@@ -17,21 +17,22 @@ public class CoordinatorService {
     public CoordinatorService(Cache<String, Order> guavaCache) {
         this.guavaCache = guavaCache;
     }
-    @KafkaListener(topics="order-service")
+    @KafkaListener(topics="coor-service")
     public void OrderListener(OrderResponse response)
     {
         guavaCache.asMap().get(response.getCorrelationId()).getResponses().put(0,response.getStatus());
     }
-    @KafkaListener(topics="inventory-service")
+    @KafkaListener(topics="coor-service")
     public void InventoryListener(InventoryResponse response)
     {
         guavaCache.asMap().get(response.getCorrelationId()).getResponses().put(1,response.getStatus());
     }
-    @KafkaListener(topics="payment-service")
+    @KafkaListener(topics="coor-service")
     public void PaymentListener(PaymentResponse response)
     {
         guavaCache.asMap().get(response.getCorrelationId()).getResponses().put(2,response.getStatus());
     }
+
 
 
 }
