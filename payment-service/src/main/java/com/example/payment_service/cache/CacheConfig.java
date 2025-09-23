@@ -20,10 +20,10 @@ public class CacheConfig {
     @Bean
     public Cache<String, ReservePayment> guavaCache() {
         return CacheBuilder.newBuilder()
-                .expireAfterWrite(3, TimeUnit.SECONDS)
+                .expireAfterWrite(10, TimeUnit.SECONDS)
                 .removalListener((RemovalNotification<String, ReservePayment> notification) -> {
                     ReservePayment value = notification.getValue();
-                    if(value.getStatus()==1) //if reserved then only
+                    if(value.getStatus()==1 || value.getStatus()==2) //if reserved then only
                     {
                         ReserveFund reserveFund = reserveFundRepository.findById(value.getClientid()).orElse(null);
                         reserveFund.setReserveAmount(reserveFund.getReserveAmount()-value.getAmount());

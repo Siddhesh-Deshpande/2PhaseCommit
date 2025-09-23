@@ -22,13 +22,13 @@ public class TaskScheduler {
     @Autowired
     private KafkaTemplate<String, OrderResponse> kafkaTemplate;
 
-    @Scheduled(fixedRate = 1000)
+    @Scheduled(fixedDelay = 1000)
     public void runjob()
     {
         HashSet<String> keys = new HashSet<>();
         for(String key : guavaCache.asMap().keySet())
         {
-            CreateOrder order = guavaCache.getIfPresent(key);
+            CreateOrder order = guavaCache.asMap().get(key);
             Order insertorder = new Order(order.getClientid(),order.getItemIds(), order.getQuantity(), order.getAmount());
             orderRepository.save(insertorder);
             kafkaTemplate.send("coor-service",new OrderResponse(order.getCorrelationId(),true));

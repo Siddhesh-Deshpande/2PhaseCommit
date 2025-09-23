@@ -28,12 +28,12 @@ public class TaskScheduler {
     private KafkaTemplate<String, FinalizeOrder> finalizeordertemplate;
 
     @Autowired
-    private KafkaTemplate<String, DeductItems> deducttemplate;
+    private KafkaTemplate<String, DeductItems> deductitemtemplate;
 
     @Autowired
     private KafkaTemplate<String,ChargeMoney>  chargeMoneytemplate;
 
-    @Scheduled(fixedRate = 1000)
+    @Scheduled(fixedDelay = 1000)
     public void InitiateFirstPhase() { //only pick up phase 0 orders and send the events
         for (String key : guavaCache.asMap().keySet()) {
             Order order = guavaCache.asMap().get(key);
@@ -74,16 +74,16 @@ public class TaskScheduler {
             }
         }
     }
-    @Scheduled(fixedRate = 1000)
+    @Scheduled(fixedDelay = 1000)
     public void InitiateSecondPhase() {
         for (String key : guavaCache.asMap().keySet()) {
             Order order = guavaCache.asMap().get(key);
-            if(order.getResponses().size()==3) {
+            if(order.getResponses().size()==3 && order.getPhase() == 1) {
                 if (order.getResponses().get(0) && order.getResponses().get(1) && order.getResponses().get(2))
                 {
                     //Commit phase starts
                     finalizeordertemplate.send("order-service", new FinalizeOrder(key));
-                    deducttemplate.send("payment-service", new DeductItems(key));
+                    deductitemtemplate.send("inventory-service", new DeductItems(key));
                     chargeMoneytemplate.send("payment-service", new ChargeMoney(key));
 
                     System.out.println("Order Placed Successfully! Congrats.");

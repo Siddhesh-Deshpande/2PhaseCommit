@@ -25,7 +25,7 @@ public class TaskScheduler {
     @Autowired
     private KafkaTemplate<String, InventoryResponse> kafkaTemplate;
 
-    @Scheduled(fixedRate = 1000)//decide what time to keep in future
+    @Scheduled(fixedDelay = 1000)//decide what time to keep in future
     public void ReserveItems()
     {
 
@@ -67,6 +67,7 @@ public class TaskScheduler {
                         }
                     }
                     kafkaTemplate.send("coor-service",new InventoryResponse(key,true));
+                    task.setStatus(2);//this means reservatino done
                 }
                 else
                 {
@@ -80,11 +81,12 @@ public class TaskScheduler {
             guavaCache.invalidate(key);
         }
     }
-    @Scheduled(fixedRate = 1000)
+    @Scheduled(fixedDelay = 1000)
     public void DeductItems()
     {
         HashSet<String> keys = new HashSet<>();
-        for(String key : guavaCache.asMap().keySet()) {
+        for(String key : guavaCache.asMap().keySet())
+        {
             ReserveItems task = guavaCache.asMap().get(key);
             Integer[] item_ids = task.getItemIds();
             Integer[] quantity = task.getQuantity();
@@ -99,15 +101,15 @@ public class TaskScheduler {
                     reserveItemRepository.save(reserveItems);
                     itemRepository.save(item);
                 }
-                keys.add(key);
                 kafkaTemplate.send("coor-service",new InventoryResponse(key,true));
+                keys.add(key);
+                task.setStatus(2);
             }
         }
         for(String key : keys)
         {
             guavaCache.invalidate(key);
         }
-
     }
 
 }

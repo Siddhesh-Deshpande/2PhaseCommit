@@ -20,10 +20,10 @@ public class CacheConfig {
     @Bean
     public Cache<String, ReserveItems> guavaCache() {
         return CacheBuilder.newBuilder()
-                .expireAfterWrite(3, TimeUnit.SECONDS)
+                .expireAfterWrite(10, TimeUnit.SECONDS)
                 .removalListener((RemovalNotification<String,ReserveItems> notification) -> {
                     ReserveItems item =  notification.getValue();
-                    if(item.getStatus()==1)
+                    if(item.getStatus()==1 || item.getStatus()==2)
                     {
                         Integer[] quantity = item.getQuantity();
                         Integer[] item_id = item.getItemIds();

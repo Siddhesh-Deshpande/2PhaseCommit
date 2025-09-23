@@ -34,6 +34,9 @@ public class PaymentService {
     @KafkaHandler
     public void deductmoney(ChargeMoney payments)
     {
-        guavacache.asMap().get(payments.getCorrelationid()).setStatus(1);
+        if(guavacache.asMap().containsKey(payments.getCorrelationid()))
+        {
+            guavacache.asMap().get(payments.getCorrelationid()).setStatus(1);
+        }
     }
 }

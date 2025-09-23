@@ -16,20 +16,10 @@ import java.util.concurrent.TimeUnit;
 @Configuration
 public class CacheConfig {
 
-    @Autowired
-    private KafkaTemplate<String, CancelOrder> ordertemplate;
-
-    @Autowired
-    private KafkaTemplate<String, ReleaseItems> inventorytemplate;
-
-    @Autowired
-    private KafkaTemplate<String, ReleaseFunds> paymenttemplate;
-
-
     @Bean
     public Cache<String, Order> guavaCache() {
         return CacheBuilder.newBuilder()
-                .expireAfterWrite(10, TimeUnit.SECONDS)  // entry expires 10 sec after write
+                .expireAfterWrite(30, TimeUnit.SECONDS)  // entry expires 10 sec after write
                 .build();
     }
 }

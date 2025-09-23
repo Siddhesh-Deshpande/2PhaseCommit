@@ -30,13 +30,13 @@ public class TaskScheduler {
     private KafkaTemplate<String, PaymentResponse> kafkaTemplate;
 
 
-    @Scheduled(fixedRate = 1000)//this needs to be fixed
+    @Scheduled(fixedDelay = 1000)//this needs to be fixed
     public void ReserveMoney()
     {
         HashSet<String> keys = new HashSet<>();
         for(String key: guavaCache.asMap().keySet())
         {
-            ReservePayment reservePayment = guavaCache.getIfPresent(key);
+            ReservePayment reservePayment = guavaCache.asMap().get(key);
             User user = paymentRepository.findById(reservePayment.getClientid()).orElse(null);
             ReserveFund fundReserve = reserveFundRepository.findById(reservePayment.getClientid()).orElse(null);
             int reserveAmount = (fundReserve == null) ? 0 : fundReserve.getReserveAmount();
@@ -54,7 +54,7 @@ public class TaskScheduler {
                     {
                         if(fundReserve != null)
                         {
-                            fundReserve.setReserveAmount(fundReserve.getReserveAmount()+reserveAmount);
+                            fundReserve.setReserveAmount(fundReserve.getReserveAmount()+reservePayment.getAmount());
                             reserveFundRepository.save(fundReserve);
                         }
                         else
@@ -63,6 +63,7 @@ public class TaskScheduler {
                             reserveFundRepository.save(reserveFund);
                         }
                         kafkaTemplate.send("coor-service",new PaymentResponse(reservePayment.getCorrelationId(),true));//send that reserve is done correctly
+                        reservePayment.setStatus(2);//this mean reserved
                     }
                 }
             }
@@ -72,13 +73,13 @@ public class TaskScheduler {
             guavaCache.invalidate(key);
         }
     }
-    @Scheduled(fixedRate = 1000)
+    @Scheduled(fixedDelay = 1000)
     public void DeductMoney()
     {
         HashSet<String> keys = new HashSet<>();
         for(String key: guavaCache.asMap().keySet())
         {
-            ReservePayment reservePayment = guavaCache.getIfPresent(key);
+            ReservePayment reservePayment = guavaCache.asMap().get(key);
             User user = paymentRepository.findById(reservePayment.getClientid()).orElse(null);
             ReserveFund fundReserve = reserveFundRepository.findById(reservePayment.getClientid()).orElse(null);
             int reserveAmount = (fundReserve == null) ? 0 : fundReserve.getReserveAmount();
@@ -88,6 +89,7 @@ public class TaskScheduler {
                 user.setBalance(user.getBalance()-reserveAmount);
                 fundReserve.setReserveAmount(fundReserve.getReserveAmount()-reserveAmount);
                 kafkaTemplate.send("coor-service",new PaymentResponse(reservePayment.getCorrelationId(),true)); //reserve is done correctly
+                reservePayment.setStatus(2);
             }
         }
         for(String key:keys)

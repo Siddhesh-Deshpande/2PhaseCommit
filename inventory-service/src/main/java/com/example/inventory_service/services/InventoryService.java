@@ -28,7 +28,10 @@ public class InventoryService {
     @KafkaHandler
     public void deductitems(DeductItems deductItems)
     {
-        guavaCache.asMap().get(deductItems.getCorrelationid()).setStatus(1);
+        if(guavaCache.asMap().containsKey(deductItems.getCorrelationid()))
+        {
+            guavaCache.asMap().get(deductItems.getCorrelationid()).setStatus(1);
+        }
     }
     @KafkaHandler
     public void releaseitems(ReleaseItems items)
