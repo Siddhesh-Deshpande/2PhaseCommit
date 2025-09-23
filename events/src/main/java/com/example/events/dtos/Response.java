@@ -8,7 +8,7 @@ public abstract class Response {
         this.correlationId = correlationId;
         this.status = status;
     }
-
+    public Response() {}
     public String getCorrelationId() {
         return correlationId;
     }

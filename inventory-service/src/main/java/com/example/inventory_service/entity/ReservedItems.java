@@ -19,6 +19,4 @@ public class ReservedItems {
     private Integer item_id;
     @Column(name="reserved_quantity")
     private Integer reserved_quantity;
-
-
 }

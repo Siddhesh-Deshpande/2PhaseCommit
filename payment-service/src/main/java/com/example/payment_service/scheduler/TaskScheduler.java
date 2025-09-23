@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
 
-@Component
+@Component("paymentTaskScheduler")
 public class TaskScheduler {
 
     @Autowired
@@ -31,7 +31,7 @@ public class TaskScheduler {
 
 
     @Scheduled(fixedRate = 1000)//this needs to be fixed
-    public void runJob()
+    public void ReserveMoney()
     {
         HashSet<String> keys = new HashSet<>();
         for(String key: guavaCache.asMap().keySet())
@@ -66,20 +66,34 @@ public class TaskScheduler {
                     }
                 }
             }
-            else
+        }
+        for(String key:keys)
+        {
+            guavaCache.invalidate(key);
+        }
+    }
+    @Scheduled(fixedRate = 1000)
+    public void DeductMoney()
+    {
+        HashSet<String> keys = new HashSet<>();
+        for(String key: guavaCache.asMap().keySet())
+        {
+            ReservePayment reservePayment = guavaCache.getIfPresent(key);
+            User user = paymentRepository.findById(reservePayment.getClientid()).orElse(null);
+            ReserveFund fundReserve = reserveFundRepository.findById(reservePayment.getClientid()).orElse(null);
+            int reserveAmount = (fundReserve == null) ? 0 : fundReserve.getReserveAmount();
+            if(reservePayment.getStatus()==1 && user!=null)
             {
-                if(user != null)
-                {
-                    keys.add(key);
-                    user.setBalance(user.getBalance()-reserveAmount);
-                    fundReserve.setReserveAmount(fundReserve.getReserveAmount()-reserveAmount);
-                    kafkaTemplate.send("coor-service",new PaymentResponse(reservePayment.getCorrelationId(),true)); //reserve is done correctly
-                }
+                keys.add(key);
+                user.setBalance(user.getBalance()-reserveAmount);
+                fundReserve.setReserveAmount(fundReserve.getReserveAmount()-reserveAmount);
+                kafkaTemplate.send("coor-service",new PaymentResponse(reservePayment.getCorrelationId(),true)); //reserve is done correctly
             }
         }
         for(String key:keys)
         {
             guavaCache.invalidate(key);
         }
+
     }
 }

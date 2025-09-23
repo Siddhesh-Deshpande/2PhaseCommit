@@ -6,6 +6,7 @@ public class CancelOrder {
     public CancelOrder(String correlationId) {
         this.correlationId = correlationId;
     }
+    public CancelOrder() {}
 
     public String getCorrelationId() {
         return correlationId;

@@ -7,10 +7,12 @@ import com.example.inventory_service.entity.Item;
 import com.example.inventory_service.repository.ItemRepository;
 import com.google.common.cache.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.annotation.KafkaHandler;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 @Service
+@KafkaListener(topics="inventory-service")
 public class InventoryService {
 
     @Autowired
@@ -18,17 +20,17 @@ public class InventoryService {
     @Autowired
     private ItemRepository itemRepository;
 
-    @KafkaListener(topics="inventory-service")
+    @KafkaHandler
     public void ReserveItems(ReserveItems items)
     {
         guavaCache.put(items.getCorrelationId(), items);
     }
-    @KafkaListener(topics="inventory-service")
+    @KafkaHandler
     public void deductitems(DeductItems deductItems)
     {
         guavaCache.asMap().get(deductItems.getCorrelationid()).setStatus(1);
     }
-    @KafkaListener(topics="inventory-service")
+    @KafkaHandler
     public void releaseitems(ReleaseItems items)
     {
        if(guavaCache.asMap().containsKey(items.getCorrelationid()))

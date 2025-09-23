@@ -18,6 +18,7 @@ public class ReserveItems {
         this.timestamp = Instant.now();
         this.Status = 0;
     }
+    public ReserveItems(){}
 
     // Getters and setters
     public String getCorrelationId() {

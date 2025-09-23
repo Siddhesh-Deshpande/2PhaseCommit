@@ -15,10 +15,10 @@ import java.util.UUID;
 public class RestController {
 
     @Autowired
-    private Cache<String, Order> guavaCache;
+    private Cache<String, Order> guavaCache; //usually a redis cache in real world
 
     @PostMapping("/order")
-    public void SendOrder(@RequestBody Order order)
+    public void SendOrder(@RequestBody Order order) //in real world just put in redis cache
     {
         guavaCache.put(UUID.randomUUID().toString(), order);
     }

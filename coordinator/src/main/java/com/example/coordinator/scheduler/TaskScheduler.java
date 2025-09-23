@@ -8,7 +8,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-@Component
+@Component("coordinatorTaskScheduler")
 public class TaskScheduler {
 
     // Runs every 1 second
@@ -34,12 +34,12 @@ public class TaskScheduler {
     private KafkaTemplate<String,ChargeMoney>  chargeMoneytemplate;
 
     @Scheduled(fixedRate = 1000)
-    public void runjob() {
+    public void InitiateFirstPhase() { //only pick up phase 0 orders and send the events
         for (String key : guavaCache.asMap().keySet()) {
             Order order = guavaCache.asMap().get(key);
             if (order.getPhase() == 0)
             {
-                order.setPhase(1);
+
 
                 int sum = 0;
                 for (int i = 0; i < order.getItemids().length; i++) {
@@ -69,14 +69,23 @@ public class TaskScheduler {
                 ordertemplate.send("order-service", orderevent);
                 inventorytemplate.send("inventory-service", itemevent);
                 paymenttemplate.send("payment-service", paymentevent);
+                System.out.println("Prepare Phase Started");
+                order.setPhase(1);
             }
-            else if(order.getResponses().size()==3) {
+        }
+    }
+    @Scheduled(fixedRate = 1000)
+    public void InitiateSecondPhase() {
+        for (String key : guavaCache.asMap().keySet()) {
+            Order order = guavaCache.asMap().get(key);
+            if(order.getResponses().size()==3) {
                 if (order.getResponses().get(0) && order.getResponses().get(1) && order.getResponses().get(2))
                 {
                     //Commit phase starts
                     finalizeordertemplate.send("order-service", new FinalizeOrder(key));
                     deducttemplate.send("payment-service", new DeductItems(key));
                     chargeMoneytemplate.send("payment-service", new ChargeMoney(key));
+
                     System.out.println("Order Placed Successfully! Congrats.");
                 }
 

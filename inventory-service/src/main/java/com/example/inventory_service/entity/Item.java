@@ -23,6 +23,4 @@ public class Item {
     private Integer quantity;
     @Column(name="price")
     private Integer price;
-
-
 }

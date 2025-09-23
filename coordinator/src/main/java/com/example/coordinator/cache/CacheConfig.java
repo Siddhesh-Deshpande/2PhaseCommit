@@ -29,29 +29,7 @@ public class CacheConfig {
     @Bean
     public Cache<String, Order> guavaCache() {
         return CacheBuilder.newBuilder()
-                .expireAfterWrite(30, TimeUnit.SECONDS)  // entry expires 10 sec after write
-                .removalListener((RemovalNotification<String,Order> notification) -> {
-                    Order order = notification.getValue();
-                    HashMap<Integer,Boolean> map = order.getResponses();
-                    for(Integer key : map.keySet()){
-                        if(map.get(key))
-                        {
-                            if(key==0)
-                            {
-                                ordertemplate.send("order-service",new CancelOrder(notification.getKey()));
-                            }
-                            else if(key==1)
-                            {
-                                inventorytemplate.send("inventory-service",new ReleaseItems(notification.getKey()));
-                            }
-                            else
-                            {
-                                paymenttemplate.send("payment-service",new ReleaseFunds(notification.getKey()));
-                            }
-                        }
-                    }
-
-                })
+                .expireAfterWrite(10, TimeUnit.SECONDS)  // entry expires 10 sec after write
                 .build();
     }
 }

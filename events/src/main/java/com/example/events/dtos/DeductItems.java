@@ -6,6 +6,7 @@ public class DeductItems {
     public DeductItems(String correlationid) {
         this.correlationid = correlationid;
     }
+    public DeductItems() {}
 
     public String getCorrelationid() {
         return correlationid;

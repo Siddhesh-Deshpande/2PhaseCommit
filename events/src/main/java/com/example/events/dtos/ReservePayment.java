@@ -16,6 +16,7 @@ public class ReservePayment {
         this.timestamp = Instant.now();
         this.status = 0;
     }
+    public ReservePayment(){}
 
     public Instant getTimestamp() {
         return timestamp;

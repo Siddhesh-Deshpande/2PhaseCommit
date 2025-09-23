@@ -6,6 +6,7 @@ public class ReleaseFunds {
     public ReleaseFunds(String correlationid) {
         this.correlationid = correlationid;
     }
+    public ReleaseFunds() {}
 
     public String getCorrelationid() {
         return correlationid;

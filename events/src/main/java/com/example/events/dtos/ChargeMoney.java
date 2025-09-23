@@ -6,6 +6,7 @@ public class ChargeMoney {
     public ChargeMoney(String correlationid) {
         this.correlationid = correlationid;
     }
+    public ChargeMoney() {}
 
     public String getCorrelationid() {
         return correlationid;

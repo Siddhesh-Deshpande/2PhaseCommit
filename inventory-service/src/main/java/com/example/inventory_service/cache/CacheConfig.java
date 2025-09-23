@@ -20,7 +20,7 @@ public class CacheConfig {
     @Bean
     public Cache<String, ReserveItems> guavaCache() {
         return CacheBuilder.newBuilder()
-                .expireAfterWrite(10, TimeUnit.SECONDS)
+                .expireAfterWrite(3, TimeUnit.SECONDS)
                 .removalListener((RemovalNotification<String,ReserveItems> notification) -> {
                     ReserveItems item =  notification.getValue();
                     if(item.getStatus()==1)

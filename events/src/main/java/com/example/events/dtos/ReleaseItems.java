@@ -6,7 +6,7 @@ public class ReleaseItems {
     public ReleaseItems(String correlationid) {
         this.correlationid = correlationid;
     }
-
+    public ReleaseItems() {}
     public String getCorrelationid() {
         return correlationid;
     }

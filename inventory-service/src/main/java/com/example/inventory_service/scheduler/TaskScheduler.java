@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
 
-@Component
+@Component("inventoryTaskScheduler")
 public class TaskScheduler {
     @Autowired
     private Cache<String, ReserveItems> guavaCache;
@@ -26,8 +26,9 @@ public class TaskScheduler {
     private KafkaTemplate<String, InventoryResponse> kafkaTemplate;
 
     @Scheduled(fixedRate = 1000)//decide what time to keep in future
-    public void runjob()
+    public void ReserveItems()
     {
+
         HashSet<String> keys = new HashSet<>();
         for (String key : guavaCache.asMap().keySet())
         {
@@ -73,7 +74,21 @@ public class TaskScheduler {
                 }
 
             }
-            else
+        }
+        for(String key : keys)
+        {
+            guavaCache.invalidate(key);
+        }
+    }
+    @Scheduled(fixedRate = 1000)
+    public void DeductItems()
+    {
+        HashSet<String> keys = new HashSet<>();
+        for(String key : guavaCache.asMap().keySet()) {
+            ReserveItems task = guavaCache.asMap().get(key);
+            Integer[] item_ids = task.getItemIds();
+            Integer[] quantity = task.getQuantity();
+            if (task.getStatus() == 1)
             {
                 for(int i = 0; i<quantity.length; i++)
                 {
@@ -92,6 +107,7 @@ public class TaskScheduler {
         {
             guavaCache.invalidate(key);
         }
+
     }
 
 }

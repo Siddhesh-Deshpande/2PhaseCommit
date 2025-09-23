@@ -1,11 +1,17 @@
 package com.example.order_service.entity;
 
+import com.example.events.dtos.ORDER_STATUS;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 @Entity
 @Table(name = "orders")  // avoid reserved word "order"
+@NoArgsConstructor
+@Data
 public class Order {
 
     @Id
@@ -27,53 +33,15 @@ public class Order {
     @Column(name = "amount")
     private Integer amount;
 
-    public Order(Integer clientId, Integer[] itemsids, Integer[] quantity, Integer amount) {
+    @Column(name="status")
+    private String status;
+
+    public Order(Integer clientId, Integer[] itemsids,Integer[] quantity,Integer amount) {
         this.clientId = clientId;
         this.itemsids = itemsids;
-        this.quantity = quantity;
         this.amount = amount;
-    }
-
-    public Order() {
-    }
-
-    public Integer getOrderid() {
-        return orderid;
-    }
-
-    public void setOrderid(Integer orderid) {
-        this.orderid = orderid;
-    }
-
-    public Integer getClientId() {
-        return clientId;
-    }
-
-    public void setClientId(Integer clientId) {
-        this.clientId = clientId;
-    }
-
-    public Integer[] getItemsids() {
-        return itemsids;
-    }
-
-    public void setItemsids(Integer[] itemsids) {
-        this.itemsids = itemsids;
-    }
-
-    public Integer[] getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer[] quantity) {
         this.quantity = quantity;
+        this.status = ORDER_STATUS.ORDER_CREATED.toString();
     }
 
-    public Integer getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Integer amount) {
-        this.amount = amount;
-    }
 }

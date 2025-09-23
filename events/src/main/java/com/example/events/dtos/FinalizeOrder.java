@@ -6,6 +6,7 @@ public class FinalizeOrder {
     public FinalizeOrder(String correlationid) {
         this.correlationid = correlationid;
     }
+    public FinalizeOrder() {}
 
     public String getCorrelationid() {
         return correlationid;

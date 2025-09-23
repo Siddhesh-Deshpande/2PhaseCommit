@@ -6,4 +6,5 @@ public class InventoryResponse extends  Response{
     public InventoryResponse(String correlationId, boolean status) {
         super(correlationId, status);
     }
+    public InventoryResponse(){}
 }

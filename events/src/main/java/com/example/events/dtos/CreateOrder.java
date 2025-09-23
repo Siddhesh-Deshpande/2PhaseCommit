@@ -18,7 +18,7 @@ public class CreateOrder {
         this.clientid = clientid;
         this.amount = amount;
     }
-
+    public CreateOrder() {}
     public String getCorrelationId() {
         return correlationId;
     }
