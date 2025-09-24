@@ -88,8 +88,10 @@ public class TaskScheduler {
                 keys.add(key);
                 user.setBalance(user.getBalance()-reserveAmount);
                 fundReserve.setReserveAmount(fundReserve.getReserveAmount()-reserveAmount);
+                paymentRepository.save(user);
+                reserveFundRepository.save(fundReserve);
                 kafkaTemplate.send("coor-service",new PaymentResponse(reservePayment.getCorrelationId(),true)); //reserve is done correctly
-                reservePayment.setStatus(2);
+                reservePayment.setStatus(3);
             }
         }
         for(String key:keys)

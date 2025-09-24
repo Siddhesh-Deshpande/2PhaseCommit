@@ -10,7 +10,7 @@ public class Order {
     private Integer[] prices;
     private Integer phase;//0 means order just arrived and we haven't processed yet.
     private HashMap<Integer,Boolean> response;
-
+    private Integer order_id;
     public Order(Integer clientid, Integer[] itemids, Integer[] quantities, Integer[] prices) {
         this.clientid = clientid;
         this.itemids = itemids;
@@ -18,6 +18,7 @@ public class Order {
         this.prices = prices;
         this.response = new HashMap<>();
         this.phase = 0;
+        this.order_id = -1;
     }
 
     public Integer getPhase() {
@@ -66,5 +67,13 @@ public class Order {
 
     public void setResponses(HashMap<Integer,Boolean> responses) {
         this.response = responses;
+    }
+
+    public Integer getOrder_id() {
+        return order_id;
+    }
+
+    public void setOrder_id(Integer order_id) {
+        this.order_id = order_id;
     }
 }

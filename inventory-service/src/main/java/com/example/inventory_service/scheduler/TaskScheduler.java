@@ -103,7 +103,7 @@ public class TaskScheduler {
                 }
                 kafkaTemplate.send("coor-service",new InventoryResponse(key,true));
                 keys.add(key);
-                task.setStatus(2);
+                task.setStatus(3);
             }
         }
         for(String key : keys)

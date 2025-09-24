@@ -42,6 +42,7 @@ public class Order {
         this.amount = amount;
         this.quantity = quantity;
         this.status = ORDER_STATUS.ORDER_CREATED.toString();
+
     }
 
 }

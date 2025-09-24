@@ -22,20 +22,30 @@ public class CoordinatorService {
     @KafkaHandler
     public void OrderListener(OrderResponse response)
     {
-        System.out.println("Order Response Recieved from order service");
-        guavaCache.asMap().get(response.getCorrelationId()).getResponses().put(0,response.getStatus());
+        if(guavaCache.asMap().containsKey(response.getCorrelationId()))
+        {
+            System.out.println("Order Response Recieved from order service");
+            guavaCache.asMap().get(response.getCorrelationId()).setOrder_id(response.getId());
+            guavaCache.asMap().get(response.getCorrelationId()).getResponses().put(0,response.getStatus());
+        }
     }
     @KafkaHandler
     public void InventoryListener(InventoryResponse response)
     {
-        System.out.println("Inventory Response Recieved from inventory service");
-        guavaCache.asMap().get(response.getCorrelationId()).getResponses().put(1,response.getStatus());
+        if(guavaCache.asMap().containsKey(response.getCorrelationId()))
+        {
+            System.out.println("Inventory Response Recieved from inventory service");
+            guavaCache.asMap().get(response.getCorrelationId()).getResponses().put(1,response.getStatus());
+        }
     }
     @KafkaHandler
     public void PaymentListener(PaymentResponse response)
     {
-        System.out.println("Payment Response Recieved from payment service");
-        guavaCache.asMap().get(response.getCorrelationId()).getResponses().put(2,response.getStatus());
+        if(guavaCache.asMap().containsKey(response.getCorrelationId()))
+        {
+            System.out.println("Payment Response Recieved from payment service");
+            guavaCache.asMap().get(response.getCorrelationId()).getResponses().put(2,response.getStatus());
+        }
     }
 
 

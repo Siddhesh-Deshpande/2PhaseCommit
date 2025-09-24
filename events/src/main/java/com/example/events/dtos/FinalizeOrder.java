@@ -2,9 +2,10 @@ package com.example.events.dtos;
 
 public class FinalizeOrder {
     private String correlationid;
-
-    public FinalizeOrder(String correlationid) {
+    private Integer id;
+    public FinalizeOrder(String correlationid, Integer id) {
         this.correlationid = correlationid;
+        this.id = id;
     }
     public FinalizeOrder() {}
 
@@ -14,5 +15,13 @@ public class FinalizeOrder {
 
     public void setCorrelationid(String correlationid) {
         this.correlationid = correlationid;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

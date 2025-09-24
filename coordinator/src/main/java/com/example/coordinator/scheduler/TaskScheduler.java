@@ -8,6 +8,8 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
+
 @Component("coordinatorTaskScheduler")
 public class TaskScheduler {
 
@@ -76,21 +78,24 @@ public class TaskScheduler {
     }
     @Scheduled(fixedDelay = 1000)
     public void InitiateSecondPhase() {
+        HashSet<String> keys = new HashSet<>();
         for (String key : guavaCache.asMap().keySet()) {
             Order order = guavaCache.asMap().get(key);
             if(order.getResponses().size()==3 && order.getPhase() == 1) {
                 if (order.getResponses().get(0) && order.getResponses().get(1) && order.getResponses().get(2))
                 {
                     //Commit phase starts
-                    finalizeordertemplate.send("order-service", new FinalizeOrder(key));
+                    finalizeordertemplate.send("order-service", new FinalizeOrder(key,order.getOrder_id()));
                     deductitemtemplate.send("inventory-service", new DeductItems(key));
                     chargeMoneytemplate.send("payment-service", new ChargeMoney(key));
-
+                    keys.add(key);
                     System.out.println("Order Placed Successfully! Congrats.");
                 }
-
             }
 
+        }
+        for (String key : keys) {
+            guavaCache.invalidate(key);
         }
     }
 }

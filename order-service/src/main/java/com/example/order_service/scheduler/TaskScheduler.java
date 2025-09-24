@@ -30,8 +30,8 @@ public class TaskScheduler {
         {
             CreateOrder order = guavaCache.asMap().get(key);
             Order insertorder = new Order(order.getClientid(),order.getItemIds(), order.getQuantity(), order.getAmount());
-            orderRepository.save(insertorder);
-            kafkaTemplate.send("coor-service",new OrderResponse(order.getCorrelationId(),true));
+            Order temp = orderRepository.save(insertorder);
+            kafkaTemplate.send("coor-service",new OrderResponse(order.getCorrelationId(),true,temp.getOrderid()));
             keys.add(key);
         }
         for(String key : keys)

@@ -39,14 +39,10 @@ public class OrderService {
     @KafkaHandler
     public void FinalizeEventListener(FinalizeOrder response)
     {
-        CreateOrder new_order = guavaCache.asMap().get(response.getCorrelationid());
-        if(new_order != null)
-        {
-            Order order = new Order(new_order.getClientid(),new_order.getItemIds(), new_order.getQuantity(), new_order.getAmount());
-            order.setStatus(ORDER_STATUS.ORDER_COMPLETED.toString());
-            orderRepository.save(order);
-            System.out.println("Order Saved Successfully");
-        }
+          Order order = orderRepository.findById(response.getId()).orElse(null);
+          order.setStatus(ORDER_STATUS.ORDER_COMPLETED.toString());
+          orderRepository.save(order);
+          System.out.println("Order Saved Successfully");
 
     }
 }

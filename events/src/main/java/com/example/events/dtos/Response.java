@@ -3,10 +3,10 @@ package com.example.events.dtos;
 public abstract class Response {
     String correlationId;
     boolean status;
-
     public Response(String correlationId, boolean status) {
         this.correlationId = correlationId;
         this.status = status;
+
     }
     public Response() {}
     public String getCorrelationId() {
