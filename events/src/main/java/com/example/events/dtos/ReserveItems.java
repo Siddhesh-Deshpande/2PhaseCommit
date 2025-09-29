@@ -1,23 +1,36 @@
 package com.example.events.dtos;
 
-import java.time.Instant;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
+import java.time.Instant;
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ReserveItems {
     private String correlationId;
+    private String eventype;
+    private Instant timestamp;
     private Integer[] itemIds;
     private Integer[] quantity;
-    private Instant timestamp;
     private Integer Status;
 
     // Constructor
     public ReserveItems(String correlationId, Integer[] itemIds, Integer[] quantity) {
         this.correlationId = correlationId;
+        this.eventype=ReserveItems.class.getSimpleName();
+        this.timestamp = Instant.now();
         this.itemIds = itemIds;
         this.quantity = quantity;
         // If timestamp is null, set it to current time
-        this.timestamp = Instant.now();
-        this.Status = 0;
+//        this.Status = 0;
     }
+
+    public String getEventype() {
+        return eventype;
+    }
+
+    public void setEventype(String eventype) {
+        this.eventype = eventype;
+    }
+
     public ReserveItems(){}
 
     // Getters and setters

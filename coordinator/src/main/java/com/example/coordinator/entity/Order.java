@@ -2,23 +2,38 @@ package com.example.coordinator.entity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Order {
+
     private Integer clientid;
-    private Integer[] itemids;
-    private Integer[] quantities;
-    private Integer[] prices;
-    private Integer phase;//0 means order just arrived and we haven't processed yet.
-    private HashMap<Integer,Boolean> response;
+    private List<Item> items;  // <-- Matches the JSON
+    private Integer phase;     // 0 means order just arrived
+    private HashMap<Integer, Boolean> response;
     private Integer order_id;
-    public Order(Integer clientid, Integer[] itemids, Integer[] quantities, Integer[] prices) {
-        this.clientid = clientid;
-        this.itemids = itemids;
-        this.quantities = quantities;
-        this.prices = prices;
-        this.response = new HashMap<>();
+
+    public Order(Integer clientid,List<Item> items) {
         this.phase = 0;
+        this.response = new HashMap<>();
         this.order_id = -1;
+        this.clientid = clientid;
+        this.items = items;
+
+    }
+    public Integer getClientid() {
+        return clientid;
+    }
+
+    public void setClientid(Integer clientid) {
+        this.clientid = clientid;
+    }
+
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
     }
 
     public Integer getPhase() {
@@ -29,44 +44,12 @@ public class Order {
         this.phase = phase;
     }
 
-    public Integer getClientid() {
-        return clientid;
-    }
-
-    public void setClientid(Integer clientid) {
-        this.clientid = clientid;
-    }
-
-    public Integer[] getItemids() {
-        return itemids;
-    }
-
-    public void setItemids(Integer[] itemids) {
-        this.itemids = itemids;
-    }
-
-    public Integer[] getQuantities() {
-        return quantities;
-    }
-
-    public void setQuantities(Integer[] quantities) {
-        this.quantities = quantities;
-    }
-
-    public Integer[] getPrices() {
-        return prices;
-    }
-
-    public void setPrices(Integer[] prices) {
-        this.prices = prices;
-    }
-
-    public HashMap<Integer,Boolean> getResponses() {
+    public HashMap<Integer, Boolean> getResponses() {
         return response;
     }
 
-    public void setResponses(HashMap<Integer,Boolean> responses) {
-        this.response = responses;
+    public void setResponse(HashMap<Integer, Boolean> response) {
+        this.response = response;
     }
 
     public Integer getOrder_id() {
@@ -76,4 +59,6 @@ public class Order {
     public void setOrder_id(Integer order_id) {
         this.order_id = order_id;
     }
+
+
 }

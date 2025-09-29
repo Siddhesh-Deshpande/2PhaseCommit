@@ -42,24 +42,27 @@ public class TaskScheduler {
             if (order.getPhase() == 0)
             {
 
-
+                Integer [] items = new Integer[order.getItems().size()];
+                Integer [] quantity = new Integer[order.getItems().size()];
                 int sum = 0;
-                for (int i = 0; i < order.getItemids().length; i++) {
-                    sum += order.getPrices()[i] * order.getQuantities()[i];
+                for (int i = 0; i < order.getItems().size(); i++) {
+                    sum += order.getItems().get(i).getQuantity()*order.getItems().get(i).getPrice();
+                    items[i]=order.getItems().get(i).getId();
+                    quantity[i] = order.getItems().get(i).getQuantity();
                 }
 
                 CreateOrder orderevent = new CreateOrder(
                         key,
-                        order.getItemids(),
-                        order.getQuantities(),
+                        items,
+                        quantity,
                         order.getClientid(),
                         sum
                 );
 
                 ReserveItems itemevent = new ReserveItems(
                         key,
-                        order.getItemids(),
-                        order.getQuantities()
+                        items,
+                        quantity
                 );
 
                 ReservePayment paymentevent = new ReservePayment(

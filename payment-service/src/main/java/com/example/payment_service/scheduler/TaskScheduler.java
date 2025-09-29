@@ -91,7 +91,7 @@ public class TaskScheduler {
                 paymentRepository.save(user);
                 reserveFundRepository.save(fundReserve);
                 kafkaTemplate.send("coor-service",new PaymentResponse(reservePayment.getCorrelationId(),true)); //reserve is done correctly
-                reservePayment.setStatus(3);
+                reservePayment.setStatus(3);//
             }
         }
         for(String key:keys)

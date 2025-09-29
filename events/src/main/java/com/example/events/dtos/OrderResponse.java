@@ -5,7 +5,7 @@ import org.springframework.core.annotation.Order;
 public class OrderResponse extends Response {
     private Integer id;
     public OrderResponse(String correlationId, boolean status, Integer id) {
-        super(correlationId, status);
+        super(correlationId,OrderResponse.class.getSimpleName() ,status);
         this.id = id;
     }
     public OrderResponse(){}

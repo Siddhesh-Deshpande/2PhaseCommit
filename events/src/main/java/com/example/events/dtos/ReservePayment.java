@@ -1,20 +1,24 @@
 package com.example.events.dtos;
 
-import java.time.Instant;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
+import java.time.Instant;
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ReservePayment {
     private String correlationId;
+    private String eventype;
+    private Instant timestamp;
     private Integer clientid;
     private Integer amount;
-    private Instant timestamp;
     private Integer status;
 
     public ReservePayment(String correlationId, Integer clientid, Integer amount) {
         this.correlationId = correlationId;
+        this.eventype=ReservePayment.class.getSimpleName();
+        this.timestamp = Instant.now();
         this.clientid = clientid;
         this.amount = amount;
-        this.timestamp = Instant.now();
-        this.status = 0;
+//        this.status = 0;
     }
     public ReservePayment(){}
 
@@ -56,5 +60,13 @@ public class ReservePayment {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getEventype() {
+        return eventype;
+    }
+
+    public void setEventype(String eventype) {
+        this.eventype = eventype;
     }
 }

@@ -23,6 +23,7 @@ public class InventoryService {
     @KafkaHandler
     public void ReserveItems(ReserveItems items)
     {
+        items.setStatus(0);
         guavaCache.put(items.getCorrelationId(), items);
     }
     @KafkaHandler

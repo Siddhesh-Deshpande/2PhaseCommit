@@ -20,6 +20,7 @@ public class PaymentService {
     @KafkaHandler
     public void reservefunds(ReservePayment payments)
     {
+        payments.setStatus(0);
         guavacache.asMap().put(payments.getCorrelationId(),  payments);
     }
 

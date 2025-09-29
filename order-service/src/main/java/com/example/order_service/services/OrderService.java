@@ -39,7 +39,7 @@ public class OrderService {
     @KafkaHandler
     public void FinalizeEventListener(FinalizeOrder response)
     {
-          Order order = orderRepository.findById(response.getId()).orElse(null);
+          Order order = orderRepository.findById(response.getOrder_id()).orElse(null);
           order.setStatus(ORDER_STATUS.ORDER_COMPLETED.toString());
           orderRepository.save(order);
           System.out.println("Order Saved Successfully");

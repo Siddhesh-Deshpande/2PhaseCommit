@@ -4,17 +4,18 @@ import java.time.Instant;
 
 public class CreateOrder {
     private String correlationId;
+    private String eventype;
+    private Instant timestamp;
     private Integer[] itemIds;
     private Integer[] quantity;
-    private Instant timestamp;
     private Integer clientid;
     private Integer amount;
-
     public CreateOrder(String correlationId, Integer[] itemIds, Integer[] quantity,Integer clientid,Integer amount) {
         this.correlationId = correlationId;
+        this.eventype=CreateOrder.class.getSimpleName();
+        this.timestamp = Instant.now();
         this.itemIds = itemIds;
         this.quantity = quantity;
-        this.timestamp = Instant.now();
         this.clientid = clientid;
         this.amount = amount;
     }
@@ -66,4 +67,14 @@ public class CreateOrder {
     public void setAmount(Integer amount) {
         this.amount = amount;
     }
+
+    public String getEventype() {
+        return eventype;
+    }
+
+    public void setEventype(String eventype) {
+        this.eventype = eventype;
+    }
+
+
 }

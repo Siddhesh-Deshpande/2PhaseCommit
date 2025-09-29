@@ -28,6 +28,7 @@ public class CacheConfig {
                         ReserveFund reserveFund = reserveFundRepository.findById(value.getClientid()).orElse(null);
                         reserveFund.setReserveAmount(reserveFund.getReserveAmount()-value.getAmount());
                         reserveFundRepository.save(reserveFund);
+                        //there is some bug
                     }
                 })
                 .build();
