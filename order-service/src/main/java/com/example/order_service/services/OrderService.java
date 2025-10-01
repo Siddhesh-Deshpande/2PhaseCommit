@@ -42,7 +42,8 @@ public class OrderService {
           Order order = orderRepository.findById(response.getOrder_id()).orElse(null);
           order.setStatus(ORDER_STATUS.ORDER_COMPLETED.toString());
           orderRepository.save(order);
-          System.out.println("Order Saved Successfully");
+//          System.out.println("Order Saved Successfully");
+          responsetemplate.send("coor-service",new OrderResponse(response.getCorrelationid(),true,response.getOrder_id()));
 
     }
 }

@@ -20,4 +20,5 @@ public class ReserveFund {
 
     @Column(name = "amount")
     private Integer reserveAmount;
+
 }

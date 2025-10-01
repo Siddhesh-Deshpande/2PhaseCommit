@@ -1,0 +1,104 @@
+{
+  "logs" : [ {
+    "correlationId" : "94241542-95d1-4b8c-81ee-4a5cf8fa1f83",
+    "eventype" : "CreateOrder",
+    "timestamp" : 1.759315294750201E9,
+    "itemIds" : [ 1, 2 ],
+    "quantity" : [ 1, 1 ],
+    "clientid" : 2,
+    "amount" : 170
+  }, {
+    "correlationId" : "94241542-95d1-4b8c-81ee-4a5cf8fa1f83",
+    "eventype" : "ReserveItems",
+    "timestamp" : 1.759315294750207E9,
+    "itemIds" : [ 1, 2 ],
+    "quantity" : [ 1, 1 ]
+  }, {
+    "correlationId" : "94241542-95d1-4b8c-81ee-4a5cf8fa1f83",
+    "eventype" : "ReservePayment",
+    "timestamp" : 1.759315294750211E9,
+    "clientid" : 2,
+    "amount" : 170
+  }, {
+    "correlationId" : "94241542-95d1-4b8c-81ee-4a5cf8fa1f83",
+    "eventype" : "PaymentResponse",
+    "timestamp" : 1.7593152950154252E9,
+    "status" : true
+  }, {
+    "correlationId" : "94241542-95d1-4b8c-81ee-4a5cf8fa1f83",
+    "eventype" : "OrderResponse",
+    "timestamp" : 1.7593152953732545E9,
+    "status" : true,
+    "id" : 40
+  }, {
+    "correlationId" : "94241542-95d1-4b8c-81ee-4a5cf8fa1f83",
+    "eventype" : "InventoryResponse",
+    "timestamp" : 1.75931529561549E9,
+    "status" : true
+  }, {
+    "correlationid" : "94241542-95d1-4b8c-81ee-4a5cf8fa1f83",
+    "eventype" : "FinalizeOrder",
+    "timestamp" : 1.7593152957684104E9,
+    "order_id" : 40
+  }, {
+    "correlationid" : "94241542-95d1-4b8c-81ee-4a5cf8fa1f83",
+    "eventype" : "DeductItems",
+    "timestamp" : 1.7593152957693496E9
+  }, {
+    "correlationid" : "94241542-95d1-4b8c-81ee-4a5cf8fa1f83",
+    "eventype" : "ChargeMoney",
+    "timestamp" : 1.7593152957698295E9
+  }, {
+    "correlationId" : "94241542-95d1-4b8c-81ee-4a5cf8fa1f83",
+    "eventype" : "OrderResponse",
+    "timestamp" : 1.7593152957839952E9,
+    "status" : true,
+    "id" : 40
+  }, {
+    "correlationId" : "94241542-95d1-4b8c-81ee-4a5cf8fa1f83",
+    "eventype" : "PaymentResponse",
+    "timestamp" : 1.7593152960412328E9,
+    "status" : true
+  }, {
+    "correlationId" : "94241542-95d1-4b8c-81ee-4a5cf8fa1f83",
+    "eventype" : "InventoryResponse",
+    "timestamp" : 1.7593152966522558E9,
+    "status" : true
+  }, {
+    "correlationId" : "386ac063-631b-44ab-abf5-f1339a8cd541",
+    "eventype" : "CreateOrder",
+    "timestamp" : 1.7593153197746968E9,
+    "itemIds" : [ 1, 2 ],
+    "quantity" : [ 1, 1 ],
+    "clientid" : 3,
+    "amount" : 170
+  }, {
+    "correlationId" : "386ac063-631b-44ab-abf5-f1339a8cd541",
+    "eventype" : "ReserveItems",
+    "timestamp" : 1.7593153197747E9,
+    "itemIds" : [ 1, 2 ],
+    "quantity" : [ 1, 1 ]
+  }, {
+    "correlationId" : "386ac063-631b-44ab-abf5-f1339a8cd541",
+    "eventype" : "ReservePayment",
+    "timestamp" : 1.7593153197747016E9,
+    "clientid" : 3,
+    "amount" : 170
+  }, {
+    "correlationId" : "386ac063-631b-44ab-abf5-f1339a8cd541",
+    "eventype" : "PaymentResponse",
+    "timestamp" : 1.7593153200414238E9,
+    "status" : false
+  }, {
+    "correlationId" : "386ac063-631b-44ab-abf5-f1339a8cd541",
+    "eventype" : "OrderResponse",
+    "timestamp" : 1.7593153203931162E9,
+    "status" : true,
+    "id" : 41
+  }, {
+    "correlationId" : "386ac063-631b-44ab-abf5-f1339a8cd541",
+    "eventype" : "InventoryResponse",
+    "timestamp" : 1.759315320642981E9,
+    "status" : true
+  } ]
+}
